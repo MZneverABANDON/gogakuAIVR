@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Mario-like Game</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #gameArea { width: 600px; height: 400px; border: 2px solid black; position: relative; overflow: hidden; }
+        #player { width: 50px; height: 50px; background-color: red; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); }
+    </style>
+</head>
+<body>
+    <div id="gameArea">
+        <div id="player"></div>
+    </div>
+
+    <script>
+        const player = document.getElementById('player');
+        let isJumping = false;
+        let jumpHeight = 0;
+
+        document.addEventListener('keydown', function(event) {
+            if (event.code === 'Space' && !isJumping) {
+                isJumping = true;
+                jump();
+            }
+        });
+
+        function jump() {
+            if (jumpHeight < 150) {
+                player.style.bottom = `${parseInt(player.style.bottom) + 5}px`;
+                jumpHeight += 5;
+                requestAnimationFrame(jump);
+            } else {
+                fall();
+            }
+        }
+
+        function fall() {
+            if (jumpHeight > 0) {
+                player.style.bottom = `${parseInt(player.style.bottom) - 5}px`;
+                jumpHeight -= 5;
+                requestAnimationFrame(fall);
+            } else {
+                isJumping = false;
+            }
+        }
+    </script>
+</body>
+</html>
